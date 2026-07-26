@@ -58,6 +58,17 @@ window.handleCredentialResponse = (response) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Dismiss skeleton loader
+    const skeleton = document.getElementById('skeleton-loader');
+    if (skeleton) {
+        setTimeout(() => {
+            skeleton.classList.add('skeleton-fade-out');
+            skeleton.addEventListener('transitionend', () => {
+                skeleton.style.display = 'none';
+            }, { once: true });
+        }, 800);
+    }
+
     // Check local storage for persistent login
     const savedUser = localStorage.getItem('kalkulayor_user');
     if (savedUser) {
