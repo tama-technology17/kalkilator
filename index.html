@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Premium</title>
+    <meta name="description" content="Kalkulator web dengan UI premium dan fitur lengkap.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Kalkulayor</h2>
+            <button class="close-sidebar" id="close-sidebar">&times;</button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <button class="nav-btn active" data-target="main-app">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="8" y="8" width="8" height="8"></rect><line x1="8" y1="16" x2="16" y2="16"></line></svg>
+                Kalkulator
+            </button>
+            <button class="nav-btn" data-target="calendar-app">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                Kalender
+            </button>
+            <button class="nav-btn" data-target="converter-app">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Mata Uang
+            </button>
+        </nav>
+
+        <div id="auth-container" class="auth-container">
+            <div id="g_id_onload"
+                 data-client_id="1027472338250-kllia5fpbhqb98rmi3c6kanbtbevc0ug.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left">
+            </div>
+            <div id="user-profile" class="user-profile hidden">
+                <img id="user-avatar" src="" alt="User Avatar">
+                <div class="user-info">
+                    <span class="welcome-text">Selamat datang,</span>
+                    <span id="user-name"></span>
+                </div>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="mobile-header" id="mobile-header">
+            <button class="menu-btn" id="menu-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <h2>Kalkulayor</h2>
+            <button class="fullscreen-btn" id="fullscreen-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6V2H2v8h2V4zM20 4h-6V2h8v8h-2V4zM4 20h6v2H2v-8h2v6zM20 20h-6v2h8v-8h-2v6z"></path></svg>
+            </button>
+        </header>
+        
+        <div class="app-body">
+            <div id="login-message" class="login-message">
+        <h2>Akses Terbatas</h2>
+        <p>Silakan login dengan akun Google Anda untuk menggunakan kalkulator premium ini.</p>
+    </div>
+
+    <div class="calculator-wrapper hidden" id="main-app">
+        <div class="calculator">
+            <div class="display">
+                <div class="history" id="history"></div>
+                <div class="current" id="current">0</div>
+            </div>
+            <div class="buttons">
+                <!-- Row 1 -->
+                <button class="btn fn" data-action="percent">%</button>
+                <button class="btn fn" data-action="clear-entry">CE</button>
+                <button class="btn fn" data-action="clear">C</button>
+                <button class="btn op" data-action="backspace">⌫</button>
+                
+                <!-- Row 2 -->
+                <button class="btn fn" data-action="inverse">1/x</button>
+                <button class="btn fn" data-action="square">x²</button>
+                <button class="btn fn" data-action="sqrt">√x</button>
+                <button class="btn op" data-action="divide">÷</button>
+                
+                <!-- Row 3 -->
+                <button class="btn num" data-number="7">7</button>
+                <button class="btn num" data-number="8">8</button>
+                <button class="btn num" data-number="9">9</button>
+                <button class="btn op" data-action="multiply">×</button>
+                
+                <!-- Row 4 -->
+                <button class="btn num" data-number="4">4</button>
+                <button class="btn num" data-number="5">5</button>
+                <button class="btn num" data-number="6">6</button>
+                <button class="btn op" data-action="subtract">-</button>
+                
+                <!-- Row 5 -->
+                <button class="btn num" data-number="1">1</button>
+                <button class="btn num" data-number="2">2</button>
+                <button class="btn num" data-number="3">3</button>
+                <button class="btn op" data-action="add">+</button>
+                
+                <!-- Row 6 -->
+                <button class="btn num" data-action="toggle-sign">+/-</button>
+                <button class="btn num" data-number="0">0</button>
+                <button class="btn num" data-number=".">.</button>
+                <button class="btn equals" data-action="calculate">=</button>
+            </div>
+        </div>
+        </div>
+        
+        <div class="calendar-wrapper hidden" id="calendar-app">
+            <div class="calendar">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h3 id="month-year">Agustus 2026</h3>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-days">
+                    <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- JS Generated -->
+                </div>
+            </div>
+        </div>
+
+        <div class="converter-wrapper hidden" id="converter-app">
+            <div class="converter">
+                <h3>Konversi Mata Uang</h3>
+                <div class="converter-box">
+                    <div class="input-group">
+                        <label>Jumlah</label>
+                        <input type="number" id="amount" value="1" min="0">
+                    </div>
+                    <div class="currency-selectors">
+                        <div class="select-group">
+                            <label>Dari</label>
+                            <div class="custom-select" id="from-dropdown">
+                                <div class="custom-select-trigger" id="from-trigger">
+                                    <span id="from-selected-text">USD</span>
+                                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div class="custom-select-dropdown" id="from-options-panel">
+                                    <input class="select-search" id="from-search" type="text" placeholder="Cari nama mata uang / negara...">
+                                    <div class="options-list" id="from-options-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="swap-btn" id="swap-currency">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="14" x2="21" y2="3"></line><polyline points="8 21 3 21 3 16"></polyline><line x1="20" y1="10" x2="3" y2="21"></line></svg>
+                        </button>
+                        <div class="select-group">
+                            <label>Ke</label>
+                            <div class="custom-select" id="to-dropdown">
+                                <div class="custom-select-trigger" id="to-trigger">
+                                    <span id="to-selected-text">IDR</span>
+                                    <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div class="custom-select-dropdown" id="to-options-panel">
+                                    <input class="select-search" id="to-search" type="text" placeholder="Cari nama mata uang / negara...">
+                                    <div class="options-list" id="to-options-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <span id="convert-result">0.00</span>
+                    </div>
+                    <p class="rate-info" id="rate-info">Memuat data...</p>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
